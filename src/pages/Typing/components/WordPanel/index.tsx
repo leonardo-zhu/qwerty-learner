@@ -5,8 +5,10 @@ import Phonetic from './components/Phonetic'
 import Translation from './components/Translation'
 import { default as WordComponent } from './components/Word'
 import { isShowPrevAndNextWordAtom, phoneticConfigAtom } from '@/store'
+import copy from 'copy-to-clipboard'
 import { useAtomValue } from 'jotai'
 import { useCallback, useContext, useState } from 'react'
+import { useHotkeys } from 'react-hotkeys-hook'
 
 export default function WordPanel() {
   // eslint-disable-next-line  @typescript-eslint/no-non-null-assertion
@@ -16,6 +18,15 @@ export default function WordPanel() {
   const [wordComponentKey, setWordComponentKey] = useState(0)
 
   const currentWord = state.chapterData.words[state.chapterData.index]
+
+  useHotkeys(
+    'meta+c',
+    () => {
+      copy(currentWord.name)
+    },
+    { enableOnFormTags: true, preventDefault: true },
+    [currentWord],
+  )
 
   const reloadCurrentWordComponent = useCallback(() => {
     setWordComponentKey((old) => old + 1)
