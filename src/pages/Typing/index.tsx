@@ -61,6 +61,16 @@ const App: React.FC = () => {
   }, [dispatch])
 
   useHotkeys('enter', onToggleIsTyping, { enableOnFormTags: true, preventDefault: true }, [onToggleIsTyping])
+
+  useHotkeys(
+    'meta+k',
+    () => {
+      skipWord()
+    },
+    { enableOnFormTags: true, preventDefault: true },
+    [],
+  )
+
   useEffect(() => {
     const onBlur = () => {
       dispatch({ type: TypingStateActionType.SET_IS_TYPING, payload: false })
@@ -150,12 +160,7 @@ const App: React.FC = () => {
             </button>
           </Tooltip>
           <Tooltip content="跳过该词">
-            <button
-              className={`${
-                state.isShowSkip ? 'bg-orange-400' : 'invisible w-0 bg-gray-300 px-0 opacity-0'
-              } btn-primary transition-all duration-300 `}
-              onClick={skipWord}
-            >
+            <button className={'btn-primary bg-orange-400 transition-all duration-300'} onClick={skipWord}>
               Skip
             </button>
           </Tooltip>
